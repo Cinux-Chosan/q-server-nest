@@ -1,29 +1,40 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Session } from '@nestjs/common';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   @Post('login')
-  login(@Body('username') username, @Body('password') password) {
+  login(
+    @Body('username') username,
+    @Body('password') password,
+    @Session() session,
+  ) {
     const users = global.argv.user;
+    console.log(session);
     if (users.size) {
       // 需要登录
       if (users.get(username) === password) {
-        ctx.session.username = username;
-        return (ctx.body = {
+        session.username = username;
+        return {
           success: true,
           result: true,
-          message: "登录成功!"
-        });
+          message: '登录成功!',
+        };
       } else {
-        return (ctx.body = {
+        return {
           success: false,
-          result: "",
-          message: "登录失败：用户名或密码错误!"
-        });
+          result: '',
+          message: '登录失败：用户名或密码错误!',
+        };
       }
-    } else {
-      return next();
     }
   }
+  @Post('logout')
+  logout(@Session() session) {
+    session.username = null;
+    return {
+      success: true,
+      message: '登出成功!',
+      result: true,
+    };
+  }
 }
-
