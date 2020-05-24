@@ -11,12 +11,19 @@ import { DownloadController } from './modules/download/download.controller';
 import { DownloadService } from './modules/download/download.service';
 
 @Module({
-  controllers: [AppController, SysConfController, UploadController, DownloadController],
+  controllers: [
+    AppController,
+    SysConfController,
+    UploadController,
+    DownloadController,
+  ],
   providers: [AppService, DownloadService],
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../www'),
-    })
-    , FilesModule, AuthModule],
+    }),
+    FilesModule,
+    AuthModule,
+  ],
 })
-export class AppModule { }
+export class AppModule {}
