@@ -21,9 +21,12 @@ import { DownloadService } from './modules/download/download.service';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../www'),
+      serveStaticOptions: {
+        index: false
+      }
     }),
     FilesModule,
     AuthModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

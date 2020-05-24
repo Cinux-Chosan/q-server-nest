@@ -1,7 +1,11 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Post, Get } from '@nestjs/common';
 
 @Controller('sysConf')
 export class SysConfController {
+  @Get()
+  test() {
+    return 1
+  }
   @Post()
   getSysConfData() {
     const args = global.argv;

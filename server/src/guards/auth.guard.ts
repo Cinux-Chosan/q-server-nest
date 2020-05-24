@@ -18,16 +18,21 @@ export class AuthGuard implements CanActivate {
     const args = global.argv;
     console.log('guard');
     console.log('headers', headers);
+    const { authorization } = headers
 
     if (args.user.size) {
       if (req.session.username) {
         console.log('111111');
         return true;
-      } else if (headers.x) {
-        console.log('222222');
+      } else if (authorization) {
+        const [, base64Atuh] = authorization.split(' ');
+        const strAuth = new Buffer(base64Atuh, 'base64').toString();
+        const [username, password] = strAuth.split(':');
+        console.log(username, password);
+        return true
       } else {
         console.log(401);
-        res.set('WWW-Authenticate', 'Basic realm="bbb"');
+        res.set('WWW-Authenticate', 'Basic');
         // 抛出 401
         throw new UnauthorizedException();
       }
